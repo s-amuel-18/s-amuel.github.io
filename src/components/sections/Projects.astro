@@ -5,7 +5,7 @@ import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const projects = projectsData;
+const projects = projectsData.filter(p => p.featured !== false);
 
 const techIcons: Record<string, string> = {
   "Node.js": "logos:nodejs-icon",

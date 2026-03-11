@@ -1,0 +1,78 @@
+---
+import projectsData from '../../data/projects.json';
+import { AnimatedSection } from '../ui/AnimatedSection';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const projects = projectsData.filter(p => p.featured === false);
+
+const techIcons: Record<string, string> = {
+  "Node.js": "logos:nodejs-icon",
+  "NestJS": "logos:nestjs",
+  "React.js": "logos:react",
+  "TypeScript": "logos:typescript-icon",
+  "PostgreSQL": "logos:postgresql",
+  "AWS": "logos:aws",
+  "PHP": "logos:php",
+  "Laravel": "logos:laravel",
+  "MySQL": "logos:mysql",
+  "TypeORM": "logos:typeorm"
+};
+
+const getIcon = (tech: string) => techIcons[tech] || "lucide:code";
+---
+
+<section class="pb-24">
+  <AnimatedSection client:visible>
+    <div class="mb-12">
+      <h3 class="text-3xl font-black text-foreground tracking-tight">
+        {t("projects.othersTitle")}
+      </h3>
+    </div>
+  </AnimatedSection>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {projects.map((project, index) => (
+      <AnimatedSection client:visible delay={index * 0.1}>
+        <div class="group h-full glass p-8 rounded-[2rem] shadow-xl glass-hover relative overflow-hidden flex flex-col hover:-translate-y-2 transition-transform duration-500">
+          <div class="absolute -top-10 -right-10 w-32 h-32 bg-accent-indigo/5 rounded-full blur-2xl group-hover:bg-accent-indigo/10 transition-all duration-500"></div>
+          
+          <div class="flex justify-between items-start mb-6 relative z-10">
+            <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-accent-cyan/30 group-hover:bg-accent-cyan/10 transition-colors shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-cyan"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </div>
+            
+            <div class="flex gap-3 text-xs text-muted-foreground font-bold">
+              {project.stars && (
+                <span class="flex items-center gap-1.5 bg-background/50 px-2 py-1 rounded-md border border-white/5">
+                  <span class="text-yellow-400">★</span> {project.stars}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <a href={project.github} target="_blank" rel="noopener noreferrer" class="mb-4 inline-block relative z-10">
+            <h4 class="text-xl font-bold text-foreground group-hover:text-accent-cyan transition-colors tracking-tight flex items-center gap-2">
+              {project.title}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </h4>
+          </a>
+
+          <p class="text-muted-foreground leading-relaxed text-sm mb-8 flex-grow opacity-90 relative z-10">
+            {project.description[lang]}
+          </p>
+
+          <div class="flex flex-wrap gap-2 mt-auto relative z-10 pt-6 border-t border-border/20">
+            {project.tech.map(t => (
+               <span class="flex items-center gap-1.5 text-muted-foreground text-[10px] font-bold uppercase tracking-widest cursor-default group/tech">
+                <iconify-icon icon={getIcon(t)} class="text-sm group-hover/tech:scale-110 transition-transform"></iconify-icon>
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      </AnimatedSection>
+    ))}
+  </div>
+</section>

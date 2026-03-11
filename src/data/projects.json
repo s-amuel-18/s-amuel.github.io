@@ -39,5 +39,39 @@
         "forks": 1,
         "language": "PHP",
         "featured": true
+    },
+    {
+        "id": "react-portfolio",
+        "title": "Minimalist Dev Portfolio",
+        "description": {
+            "en": "A minimalist and customizable portfolio template for developers built with React, Tailwind CSS, and Framer Motion.",
+            "es": "Plantilla de portafolio minimalista y personalizable para desarrolladores construida con React, Tailwind CSS y Framer Motion."
+        },
+        "tech": [
+            "React.js",
+            "TypeScript"
+        ],
+        "github": "https://github.com/s-amuel-18",
+        "stars": 4,
+        "forks": 1,
+        "language": "TypeScript",
+        "featured": false
+    },
+    {
+        "id": "cli-scaffold",
+        "title": "Backend Scaffolding Tool",
+        "description": {
+            "en": "A command-line interface tool to quickly scaffold Node.js and NestJS projects with pre-configured best practices and testing suites.",
+            "es": "Interfaz de línea de comandos para estructurar rápidamente proyectos Node.js y NestJS pre-configurados con mejores prácticas y pruebas."
+        },
+        "tech": [
+            "Node.js",
+            "TypeScript"
+        ],
+        "github": "https://github.com/s-amuel-18",
+        "stars": 9,
+        "forks": 2,
+        "language": "TypeScript",
+        "featured": false
     }
 ]
