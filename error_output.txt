@@ -1,0 +1,10 @@
+To continue, Astro requires the following dependency to be installed: [1m@astrojs/check[22m.
+
+  [35mAstro will run the following command:[39m
+  [2mIf you skip this step, you can always run it yourself later[22m
+╭────────────────────────────────────╮
+│  [1mnpm[22m i [36m@astrojs/check typescript[39m   │
+╰────────────────────────────────────╯
+[?25l◆  [1mContinue?[22m
+● Yes / ○ No
+

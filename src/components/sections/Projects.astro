@@ -39,7 +39,12 @@ const getIcon = (tech: string) => techIcons[tech] || "lucide:code";
           <!-- Project Image -->
           <div class="h-64 w-full overflow-hidden relative">
             <div class="absolute inset-0 bg-accent-cyan/10 opacity-0 group-hover:opacity-40 transition-opacity z-10 pointer-events-none"></div>
-            <img src={project.image} alt={project.title} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000" />
+            <img
+              src={project.image}
+              alt={project.title}
+              transition:name={`project-img-${project.id}`}
+              class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000"
+            />
             <div class="absolute bottom-4 left-4 z-20">
                <span class="px-3 py-1 bg-background/60 backdrop-blur-xl border border-border/40 text-accent-cyan text-[10px] font-bold font-mono rounded-lg uppercase tracking-wider">
                 {project.language}

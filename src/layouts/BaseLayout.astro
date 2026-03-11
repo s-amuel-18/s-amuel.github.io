@@ -1,6 +1,7 @@
 ---
 import '@/styles/global.css';
 import { ScrollProgress } from '../components/ui/ScrollProgress';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -20,6 +21,7 @@ const { title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <ClientRouter />
   </head>
   <body class="bg-background text-foreground antialiased selection:bg-accent-cyan/30 overflow-x-hidden min-h-screen">
     <!-- Premium Background Effects -->
@@ -33,7 +35,7 @@ const { title, description } = Astro.props;
     <ScrollProgress client:load />
     <slot />
 
-    <script shadow:none>
+    <script is:inline>
       const spotlight = document.getElementById('spotlight');
       window.addEventListener('mousemove', (e) => {
         if (!spotlight) return;

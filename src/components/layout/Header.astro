@@ -6,6 +6,12 @@ const t = useTranslations(lang);
 
 const langSwitcherUrl = lang === 'en' ? '/es/' : '/';
 const langSwitcherLabel = lang === 'en' ? 'ES' : 'EN';
+
+// Build correct anchor prefix so nav works from any page (e.g. /projects/[id])
+const homeBase = lang === 'en' ? '/' : '/es/';
+const currentPath = Astro.url.pathname;
+const isHome = currentPath === homeBase || currentPath === '/';
+const anchorBase = isHome ? '' : homeBase;
 ---
 
 <header class="fixed top-0 w-full z-50 glass border-b border-border/20">
@@ -17,10 +23,10 @@ const langSwitcherLabel = lang === 'en' ? 'ES' : 'EN';
 
     <!-- Nav Links (Desktop) -->
     <nav class="hidden md:flex items-center gap-10">
-      <a href="#about" class="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-accent-cyan transition-all">{t("nav.about")}</a>
-      <a href="#experience" class="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-accent-cyan transition-all">{t("nav.experience")}</a>
-      <a href="#skills" class="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-accent-cyan transition-all">{t("nav.skills")}</a>
-      <a href="#projects" class="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-accent-cyan transition-all">{t("nav.projects")}</a>
+      <a href={`${anchorBase}#about`} class="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-accent-cyan transition-all">{t("nav.about")}</a>
+      <a href={`${anchorBase}#experience`} class="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-accent-cyan transition-all">{t("nav.experience")}</a>
+      <a href={`${anchorBase}#skills`} class="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-accent-cyan transition-all">{t("nav.skills")}</a>
+      <a href={`${anchorBase}#projects`} class="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-accent-cyan transition-all">{t("nav.projects")}</a>
     </nav>
 
     <!-- Actions -->
@@ -32,9 +38,84 @@ const langSwitcherLabel = lang === 'en' ? 'ES' : 'EN';
         {t("hero.downloadCV")}
       </a>
       <!-- Mobile Menu Toggle -->
-      <button class="md:hidden p-2 text-foreground">
+      <button id="mobile-menu-open" class="md:hidden p-2 text-foreground hover:text-accent-cyan transition-colors" aria-label="Open menu">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
       </button>
     </div>
   </div>
 </header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobile-menu" class="md:hidden fixed inset-0 z-[60] bg-background/80 backdrop-blur-xl translate-x-full transition-transform duration-500 ease-in-out">
+  <div class="flex flex-col h-full bg-card/60 border-l border-white/5 w-[85%] max-w-sm ml-auto p-8 shadow-2xl">
+    <div class="flex justify-between items-center mb-16">
+      <span class="text-2xl font-black text-foreground tracking-widest">Menu<span class="text-accent-cyan">.</span></span>
+      <button id="mobile-menu-close" class="p-2 text-foreground hover:text-accent-cyan transition-colors bg-white/5 rounded-xl border border-white/5" aria-label="Close menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    
+    <nav class="flex flex-col gap-8 mb-auto">
+      <a href={`${anchorBase}#about`} class="mobile-nav-link text-xl font-bold tracking-widest text-foreground hover:text-accent-cyan transition-all flex items-center gap-4">
+        <span class="text-sm font-black text-muted-foreground/50">01</span>
+        {t("nav.about")}
+      </a>
+      <a href={`${anchorBase}#experience`} class="mobile-nav-link text-xl font-bold tracking-widest text-foreground hover:text-accent-cyan transition-all flex items-center gap-4">
+        <span class="text-sm font-black text-muted-foreground/50">02</span>
+        {t("nav.experience")}
+      </a>
+      <a href={`${anchorBase}#skills`} class="mobile-nav-link text-xl font-bold tracking-widest text-foreground hover:text-accent-cyan transition-all flex items-center gap-4">
+        <span class="text-sm font-black text-muted-foreground/50">03</span>
+        {t("nav.skills")}
+      </a>
+      <a href={`${anchorBase}#projects`} class="mobile-nav-link text-xl font-bold tracking-widest text-foreground hover:text-accent-cyan transition-all flex items-center gap-4">
+        <span class="text-sm font-black text-muted-foreground/50">04</span>
+        {t("nav.projects")}
+      </a>
+    </nav>
+
+    <div class="mt-8 flex flex-col gap-4">
+       <a href={t("cv.url")} target="_blank" class="flex justify-center items-center py-4 bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan text-sm font-black rounded-xl hover:bg-accent-cyan hover:text-primary-foreground transition-all uppercase tracking-widest text-center shadow-glow-cyan">
+        {t("hero.downloadCV")}
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Script runs on client side to handle interactivity
+  const setupMobileMenu = () => {
+    const openBtn = document.getElementById('mobile-menu-open');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const menu = document.getElementById('mobile-menu');
+    const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+    const toggleMenu = () => {
+      const isClosed = menu?.classList.contains('translate-x-full');
+      
+      if (isClosed) {
+        menu?.classList.remove('translate-x-full');
+        document.body.style.overflow = 'hidden'; // block scrolling
+      } else {
+        menu?.classList.add('translate-x-full');
+        document.body.style.overflow = ''; // restore scrolling
+      }
+    };
+
+    // Remove existing event listeners if needed (Astro View Transitions can cause duplication)
+    openBtn?.removeEventListener('click', toggleMenu);
+    closeBtn?.removeEventListener('click', toggleMenu);
+    
+    openBtn?.addEventListener('click', toggleMenu);
+    closeBtn?.addEventListener('click', toggleMenu);
+    
+    navLinks.forEach(link => {
+      link.removeEventListener('click', toggleMenu);
+      link.addEventListener('click', toggleMenu);
+    });
+  };
+
+  // Run on initial load and setup view transition re-execution if applicable
+  setupMobileMenu();
+  document.addEventListener('astro:page-load', setupMobileMenu);
+</script>

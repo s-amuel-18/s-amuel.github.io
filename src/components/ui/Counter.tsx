@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, useInView, useSpring, useTransform } from 'framer-motion';
+import { useInView, useSpring, useTransform } from 'framer-motion';
 
 interface Props {
   value: number;
@@ -26,7 +26,7 @@ export const Counter: React.FC<Props> = ({ value, suffix = '' }) => {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    return displayCount.onChange((latest) => setCurrent(latest));
+    return displayCount.on('change', (latest) => setCurrent(latest));
   }, [displayCount]);
 
   return (
