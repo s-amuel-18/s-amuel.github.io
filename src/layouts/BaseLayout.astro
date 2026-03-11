@@ -20,14 +20,27 @@ const { title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
   </head>
-  <body class="bg-background text-foreground antialiased selection:bg-accent-cyan/30 overflow-x-hidden">
-    <!-- Background Glows -->
-    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
-      <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-accent-cyan/10 rounded-full blur-[120px] animate-pulse"></div>
-      <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent-indigo/10 rounded-full blur-[120px] animate-pulse" style="animation-delay: 2s;"></div>
+  <body class="bg-background text-foreground antialiased selection:bg-accent-cyan/30 overflow-x-hidden min-h-screen">
+    <!-- Premium Background Effects -->
+    <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+      <div class="mesh-bg opacity-30"></div>
+      <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-accent-cyan/10 rounded-full blur-[120px] animate-pulse-slow"></div>
+      <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent-indigo/10 rounded-full blur-[120px] animate-pulse-slow" style="animation-delay: 2s;"></div>
+      <div id="spotlight" class="absolute inset-0 bg-[radial-gradient(circle_at_var(--x)_var(--y),rgba(34,211,238,0.05)_0%,transparent_80%)] opacity-0 transition-opacity duration-700"></div>
     </div>
     
     <ScrollProgress client:load />
     <slot />
+
+    <script shadow:none>
+      const spotlight = document.getElementById('spotlight');
+      window.addEventListener('mousemove', (e) => {
+        if (!spotlight) return;
+        const { clientX, clientY } = e;
+        spotlight.style.setProperty('--x', `${clientX}px`);
+        spotlight.style.setProperty('--y', `${clientY}px`);
+        spotlight.style.opacity = '1';
+      });
+    </script>
   </body>
 </html>

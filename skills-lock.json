@@ -5,6 +5,21 @@
       "source": "vercel-labs/skills",
       "sourceType": "github",
       "computedHash": "25872a21881a950edc3db1f3329664d60405d539660ce05b3265db2de06a7dfd"
+    },
+    "shadcn-ui-expert": {
+      "source": "yuniorglez/gemini-elite-core",
+      "sourceType": "github",
+      "computedHash": "6070df28a4e1a9ef93d33015cc51121b8bc8579d8517a7234f338046ee183bea"
+    },
+    "ui-design-system": {
+      "source": "hieutrtr/ai1-skills",
+      "sourceType": "github",
+      "computedHash": "c573b14b929c2acecd4d8843faab032dd4490dd652f7eec245efc765ff4332a9"
+    },
+    "ui-ux-expert": {
+      "source": "martinholovsky/claude-skills-generator",
+      "sourceType": "github",
+      "computedHash": "3f7bf154d20cff5d3355b7172e5b51ea3ff8eb5123febc5e114dad23e93d9e29"
     }
   }
 }
