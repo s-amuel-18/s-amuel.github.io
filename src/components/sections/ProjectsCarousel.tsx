@@ -101,9 +101,34 @@ export function ProjectsCarousel({ projects, lang, labels, allProjectsUrl }: Pro
           >
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* ── Image panel ── */}
-              <div className="relative h-64 lg:h-[440px] overflow-hidden">
+              <div className="group/media relative h-64 lg:h-[440px] overflow-hidden bg-bg-secondary">
+                {/* Blurred ambient backdrop (same image, scaled & blurred to fill leftover space) */}
+                {project.image && (
+                  <img
+                    src={project.image}
+                    alt=""
+                    aria-hidden
+                    className="absolute inset-0 w-full h-full object-cover scale-[1.4] blur-2xl opacity-55 transition-transform duration-[1800ms] ease-out group-hover/media:scale-[1.6]"
+                  />
+                )}
+
+                {/* Brand tint + vignette */}
+                <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.05] via-transparent to-accent-indigo/[0.05] z-[2] pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-b from-background/15 via-transparent to-background/35 z-[3] pointer-events-none" />
+
                 {/* Right-edge fade so content blends on desktop */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[rgba(15,23,42,0.6)] z-[5] pointer-events-none lg:block hidden" />
+
+                {/* Foreground image — full, not cropped */}
+                {project.image && (
+                  <div className="relative w-full h-full flex items-center justify-center p-5 lg:p-8 z-[10]">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="max-w-full max-h-full object-contain drop-shadow-[0_18px_40px_rgba(0,0,0,0.55)] rounded-xl transition-transform duration-700 ease-out group-hover/media:scale-[1.03]"
+                    />
+                  </div>
+                )}
 
                 {/* Featured badge */}
                 <div className="absolute top-4 left-4 z-20">
@@ -122,16 +147,8 @@ export function ProjectsCarousel({ projects, lang, labels, allProjectsUrl }: Pro
                   </span>
                 </div>
 
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-accent-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity z-[6] pointer-events-none" />
-
-                {project.image && (
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                )}
+                {/* Hover tint */}
+                <div className="absolute inset-0 bg-accent-cyan/5 opacity-0 group-hover/media:opacity-100 transition-opacity z-[15] pointer-events-none" />
               </div>
 
               {/* ── Content panel ── */}

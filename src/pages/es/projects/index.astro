@@ -129,7 +129,18 @@ const homeUrl = '/es';
             class="project-card group relative glass rounded-3xl overflow-hidden flex flex-col h-full shadow-2xl glass-hover"
           >
             {project.image ? (
-              <div class="h-44 w-full overflow-hidden relative">
+              <div class="project-media h-44 w-full overflow-hidden relative bg-bg-secondary">
+                <!-- Blurred ambient backdrop -->
+                <img
+                  src={project.image}
+                  alt=""
+                  aria-hidden="true"
+                  class="absolute inset-0 w-full h-full object-cover scale-[1.35] blur-2xl opacity-55 transition-transform duration-[1500ms] ease-out group-hover:scale-150"
+                />
+                <!-- Brand tint + vignette -->
+                <div class="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.06] via-transparent to-accent-indigo/[0.06] z-[2] pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent z-[3] pointer-events-none"></div>
+                <!-- Featured badge -->
                 {project.featured !== false && (
                   <div class="absolute top-3 right-3 z-20">
                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent-cyan/90 backdrop-blur-sm text-primary-foreground text-[10px] font-black font-mono rounded-lg uppercase tracking-wider shadow-glow-cyan">
@@ -138,12 +149,16 @@ const homeUrl = '/es';
                     </span>
                   </div>
                 )}
-                <div class="absolute inset-0 bg-accent-cyan/10 opacity-0 group-hover:opacity-30 transition-opacity z-10 pointer-events-none"></div>
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000"
-                />
+                <!-- Foreground image (full image, not cropped) -->
+                <div class="relative w-full h-full flex items-center justify-center p-3 z-[10]">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    class="max-w-full max-h-full object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.45)] rounded-lg transform group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                  />
+                </div>
+                <!-- Hover tint -->
+                <div class="absolute inset-0 bg-accent-cyan/10 opacity-0 group-hover:opacity-30 transition-opacity z-[15] pointer-events-none"></div>
                 <div class="absolute bottom-3 left-3 z-20">
                   <span class="px-2.5 py-1 bg-background/70 backdrop-blur-xl border border-border/40 text-accent-cyan text-[10px] font-bold font-mono rounded-lg uppercase tracking-wider">
                     {project.language}

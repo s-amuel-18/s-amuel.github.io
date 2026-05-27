@@ -35,12 +35,27 @@ const contentHtml = marked.parse(project.content?.[lang] || '');
       <div class="flex flex-col lg:flex-row gap-12 items-start mb-16 relative z-10">
         <div class="w-full lg:w-1/2 relative group">
            <div class="absolute inset-0 bg-gradient-main rounded-[2rem] blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-           <img
-             src={project.image}
-             alt={project.title}
-             transition:name={`project-img-${project.id}`}
-             class="w-full relative rounded-[2rem] shadow-xl border border-white/5 object-cover h-64 md:h-[22rem]"
-           />
+           <div class="relative w-full h-64 md:h-[22rem] rounded-[2rem] overflow-hidden border border-white/5 shadow-xl bg-bg-secondary">
+             <!-- Blurred ambient backdrop -->
+             <img
+               src={project.image}
+               alt=""
+               aria-hidden="true"
+               class="absolute inset-0 w-full h-full object-cover scale-[1.4] blur-2xl opacity-55 transition-transform duration-[1500ms] ease-out group-hover:scale-150"
+             />
+             <!-- Brand tint -->
+             <div class="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.06] via-transparent to-accent-indigo/[0.06] z-[2] pointer-events-none"></div>
+             <div class="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent z-[3] pointer-events-none"></div>
+             <!-- Foreground image (full image, not cropped) -->
+             <div class="relative w-full h-full flex items-center justify-center p-5 z-[10]">
+               <img
+                 src={project.image}
+                 alt={project.title}
+                 transition:name={`project-img-${project.id}`}
+                 class="max-w-full max-h-full object-contain drop-shadow-[0_15px_35px_rgba(0,0,0,0.5)] rounded-2xl"
+               />
+             </div>
+           </div>
         </div>
         
         <div class="space-y-6 lg:w-1/2">
