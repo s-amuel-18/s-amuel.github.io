@@ -4,12 +4,14 @@ import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const langSwitcherUrl = lang === 'en' ? '/es/' : '/';
-const langSwitcherLabel = lang === 'en' ? 'ES' : 'EN';
-
 // Build correct anchor prefix so nav works from any page (e.g. /projects/[id])
 const homeBase = lang === 'en' ? '/' : '/es/';
 const currentPath = Astro.url.pathname;
+
+const langSwitcherLabel = lang === 'en' ? 'ES' : 'EN';
+const langSwitcherUrl = lang === 'en'
+  ? '/es' + (currentPath === '/' ? '/' : currentPath)
+  : currentPath.replace(/^\/es/, '') || '/';
 const isHome = currentPath === homeBase || currentPath === '/';
 const anchorBase = isHome ? '' : homeBase;
 ---
