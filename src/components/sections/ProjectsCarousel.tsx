@@ -13,6 +13,8 @@ interface Project {
   forks?: number;
   language: string;
   content?: { en: string; es: string };
+  type?: string;
+  apk?: string;
 }
 
 interface Props {
@@ -21,6 +23,8 @@ interface Props {
   labels: {
     viewDetails: string;
     featuredBadge: string;
+    personalBadge: string;
+    downloadApk: string;
     remainingCount: number;
   };
   allProjectsUrl: string;
@@ -130,14 +134,23 @@ export function ProjectsCarousel({ projects, lang, labels, allProjectsUrl }: Pro
                   </div>
                 )}
 
-                {/* Featured badge */}
-                <div className="absolute top-4 left-4 z-20">
+                {/* Featured / Personal badges */}
+                <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent-cyan/90 backdrop-blur-sm text-primary-foreground text-[10px] font-black font-mono rounded-lg uppercase tracking-wider shadow-glow-cyan">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                     </svg>
                     {labels.featuredBadge}
                   </span>
+                  {project.type === 'personal' && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent-violet/90 backdrop-blur-sm text-primary-foreground text-[10px] font-black font-mono rounded-lg uppercase tracking-wider shadow-lg">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
+                      {labels.personalBadge}
+                    </span>
+                  )}
                 </div>
 
                 {/* Language badge */}
@@ -226,6 +239,16 @@ export function ProjectsCarousel({ projects, lang, labels, allProjectsUrl }: Pro
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
                       Demo
+                    </a>
+                  )}
+                  {project.apk && (
+                    <a
+                      href={project.apk}
+                      download
+                      className="inline-flex items-center gap-1.5 text-sm font-bold text-muted-foreground hover:text-accent-violet transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" /></svg>
+                      {labels.downloadApk}
                     </a>
                   )}
                 </div>

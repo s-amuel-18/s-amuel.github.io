@@ -33,6 +33,7 @@ const getIcon = (tech: string) => techIcons[tech] || "lucide:code";
 const allTechs = [...new Set(projectsData.flatMap(p => p.tech))];
 const featuredCount = projectsData.filter(p => p.featured !== false).length;
 const opensourceCount = projectsData.filter(p => p.github).length;
+const personalCount = projectsData.filter(p => p.type === 'personal').length;
 
 const homeUrl = '/es';
 ---
@@ -115,6 +116,16 @@ const homeUrl = '/es';
           {t("projects.filterOpenSource")}
           <span class="font-mono text-[10px] px-1.5 py-0.5 rounded-md bg-current/10">{opensourceCount}</span>
         </button>
+        {personalCount > 0 && (
+          <button
+            data-filter="personal"
+            class="filter-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 border glass"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            {t("projects.filterPersonal")}
+            <span class="font-mono text-[10px] px-1.5 py-0.5 rounded-md bg-current/10">{personalCount}</span>
+          </button>
+        )}
       </div>
     </AnimatedSection>
 
@@ -126,6 +137,7 @@ const homeUrl = '/es';
             data-project-card
             data-featured={project.featured !== false ? 'true' : 'false'}
             data-opensource={project.github ? 'true' : 'false'}
+            data-personal={project.type === 'personal' ? 'true' : 'false'}
             class="project-card group relative glass rounded-3xl overflow-hidden flex flex-col h-full shadow-2xl glass-hover"
           >
             {project.image ? (
@@ -140,15 +152,21 @@ const homeUrl = '/es';
                 <!-- Brand tint + vignette -->
                 <div class="absolute inset-0 bg-gradient-to-br from-accent-cyan/[0.06] via-transparent to-accent-indigo/[0.06] z-[2] pointer-events-none"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent z-[3] pointer-events-none"></div>
-                <!-- Featured badge -->
-                {project.featured !== false && (
-                  <div class="absolute top-3 right-3 z-20">
+                <!-- Featured / Personal badges -->
+                <div class="absolute top-3 right-3 z-20 flex flex-col gap-2 items-end">
+                  {project.featured !== false && (
                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent-cyan/90 backdrop-blur-sm text-primary-foreground text-[10px] font-black font-mono rounded-lg uppercase tracking-wider shadow-glow-cyan">
                       <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                       {t("projects.featuredBadge")}
                     </span>
-                  </div>
-                )}
+                  )}
+                  {project.type === 'personal' && (
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent-violet/90 backdrop-blur-sm text-primary-foreground text-[10px] font-black font-mono rounded-lg uppercase tracking-wider shadow-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      {t("projects.personalBadge")}
+                    </span>
+                  )}
+                </div>
                 <!-- Foreground image (full image, not cropped) -->
                 <div class="relative w-full h-full flex items-center justify-center p-3 z-[10]">
                   <img
@@ -264,6 +282,16 @@ const homeUrl = '/es';
                     Demo
                   </a>
                 )}
+                {project.apk && (
+                  <a
+                    href={project.apk}
+                    download
+                    class="text-xs font-bold text-muted-foreground hover:text-accent-violet flex items-center gap-1.5 transition-all"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                    {t("projects.downloadApk")}
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -323,7 +351,8 @@ const homeUrl = '/es';
         const show =
           filter === 'all' ||
           (filter === 'featured' && card.dataset.featured === 'true') ||
-          (filter === 'opensource' && card.dataset.opensource === 'true');
+          (filter === 'opensource' && card.dataset.opensource === 'true') ||
+          (filter === 'personal' && card.dataset.personal === 'true');
 
         if (show) {
           card.style.removeProperty('display');
