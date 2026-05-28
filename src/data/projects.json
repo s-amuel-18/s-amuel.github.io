@@ -146,5 +146,23 @@
         "forks": 3,
         "language": "JavaScript",
         "featured": false
+    },
+    {
+        "id": "javascript-coding-test",
+        "title": "JS Coding Test",
+        "description": {
+            "en": "A repository I built for my students to practice their JavaScript skills and gauge whether they're ready to code in JS. Tests are pre-written; the student implements the solution.",
+            "es": "Un repositorio que creé para que mis estudiantes pongan en práctica sus habilidades y determinen si están capacitados para programar en JavaScript. Los tests vienen escritos; el estudiante implementa la solución."
+        },
+        "tech": [
+            "Node.js",
+            "JavaScript",
+            "Jest"
+        ],
+        "github": "https://github.com/s-amuel-18/javascript-coding-test",
+        "stars": 0,
+        "forks": 0,
+        "language": "JavaScript",
+        "featured": false
     }
 ]
