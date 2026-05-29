@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface Project {
   id: string;
   title: string;
+  company?: string;
   description: { en: string; es: string };
   tech: string[];
   image?: string;
@@ -177,9 +178,19 @@ export function ProjectsCarousel({ projects, lang, labels, allProjectsUrl }: Pro
                 </div>
 
                 {/* Title */}
-                <h3 className="text-3xl lg:text-4xl font-black text-foreground tracking-tight leading-tight mb-4">
+                <h3 className="text-3xl lg:text-4xl font-black text-foreground tracking-tight leading-tight mb-3">
                   {project.title}
                 </h3>
+
+                {/* Company */}
+                {project.company && (
+                  <div className="flex items-center gap-1.5 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/60">
+                      <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                    </svg>
+                    <span className="text-xs font-semibold text-muted-foreground/70 uppercase tracking-widest">{project.company}</span>
+                  </div>
+                )}
 
                 {/* Description */}
                 <p className="text-muted-foreground leading-relaxed mb-7 text-[15px]">
